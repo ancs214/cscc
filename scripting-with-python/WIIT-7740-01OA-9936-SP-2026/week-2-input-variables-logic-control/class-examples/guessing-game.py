@@ -7,6 +7,7 @@ print("MOTHER is thinking of a number between 1 and 20.")
 while True:
     print("Please guess the number that MOTHER is thinking of or the Xenomorphs will get you.")
     print("Take a guess.")
+    #for the input function python interprets everything as a string, so we change the result to integer
     guess = int(input())
 
     if guess < secret_number:
