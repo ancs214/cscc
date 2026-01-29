@@ -23,9 +23,9 @@ while True:
     print(f"\nHello, {formatted_name}!")
 
 
-def make_album(artist, album, songs=None):
+def make_album(artist, album_name, songs=None):
     """Return a list of music albums with artist and number of songs"""
-    album_info = {'artist':artist, 'album':album}
+    album_info = {'artist':artist, 'album':album_name}
     if songs:
         album_info['songs'] = songs
 
