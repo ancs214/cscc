@@ -40,6 +40,3 @@ print(f'I guessed {my_guess} and the die toss {my_result}.')
 
 
 
-
-
-
