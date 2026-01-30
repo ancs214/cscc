@@ -2,7 +2,7 @@
 import random
 import sys
 
-#create function that returns a random number between 1 and 6
+#function that returns a random number between 1 and 6
 def random_number():
     #randrange() Returns a random number between 1 and 6 (start is inclusive, stop is exclusive)
     #randint() Returns a random number between 1 and 6 (start AND end are inclusive)
@@ -10,27 +10,39 @@ def random_number():
     return result
 
 def guess_function(guess, result=4):
-    """Function to compare the user's guess and actual result of the die roll."""
+    """Function that compares two arguments
+    (the user's guess vs actual result of the die roll)."""
+    #error logic or "guard clause"
     if guess < 1 or guess > 6:
         print('Error! Guess must be a number between 1 and 6.')
         sys.exit()
-    elif guess != int(guess):
+    elif not isinstance(guess, int):
         print('Error! Guess must be a number between 1 and 6.')
         sys.exit()
 
+    #gameplay logic
     if guess == result:
         print('matched')
         sys.exit()
     else:
         print('did not match')
 
-die_roll = random_number()
+#create variables for user guess and random number between 1 and 6
+my_guess = 6
+die_throw = random_number()
+print(die_throw)
 
-while True:
-    print('Guess the number between 1 and 6.')
-    user_guess = int(input())
+#pass variables into our guess_function as arguments
+my_result = guess_function(my_guess, die_throw)
+print(f'I guessed {my_guess} and the die toss {my_result}.')
 
-    guess_function(user_guess, die_roll)
+# die_roll = random_number()
+#
+# while True:
+#     print('Guess the number between 1 and 6.')
+#     user_guess = (input())
+#
+#     guess_function(user_guess, die_roll)
 
 
 
