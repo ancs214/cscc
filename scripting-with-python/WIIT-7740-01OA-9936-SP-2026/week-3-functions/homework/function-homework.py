@@ -29,10 +29,12 @@ def guess_function(guess, result=4):
 #create variables for user guess and random number generated
 my_guess = 6
 die_throw = random_number()
+
 print(die_throw)
 
 #pass variables into our guess_function as arguments
 my_result = guess_function(my_guess, die_throw)
+
 print(f'I guessed {my_guess} and the die toss {my_result}.')
 
 
