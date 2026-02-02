@@ -1,3 +1,11 @@
+"""
+FILE_NAME: input.py
+AUTHOR: Ashley-Noel Swarn
+DATE: 2/1/2026
+PURPOSE: Created a program to ask a user for information (radius or
+ diameter) that is used to calculate and print the circumference of a circle.
+"""
+
 import sys
 
 print("How would you like to calculate the circumference? Choose 'r' for radius or 'd' for diameter.")

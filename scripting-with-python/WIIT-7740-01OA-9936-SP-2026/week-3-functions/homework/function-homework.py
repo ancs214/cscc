@@ -1,3 +1,11 @@
+"""
+FILE_NAME: function-homework.py
+AUTHOR: Ashley-Noel Swarn
+DATE: 2/1/2026
+PURPOSE: Created a function to imitate a die toss. Created a second
+function to compare a user's guess to the die toss result. Created
+variables to pass into our function to utilize the function.
+"""
 
 import random
 import sys

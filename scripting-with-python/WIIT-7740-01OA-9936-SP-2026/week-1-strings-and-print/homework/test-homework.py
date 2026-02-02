@@ -1,1 +1,0 @@
-print("To demonstrate git bundle")
