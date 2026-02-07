@@ -1,3 +1,12 @@
+"""
+show how to use pathlib library to import and manipulate files
+
+in the code below, we can replace our FOR statement with the following:
+for line in contents.splitlines():
+
+this is more concise, and we skip having to create the temporary 'lines' variable
+"""
+
 from pathlib import Path
 
 # retrieve .txt file from directory
@@ -22,9 +31,4 @@ for line in lines:
     # print the length of pi_string
     print(len(pi_string))
 
-'''
-we can replace our FOR statement with the following: 
-for line in contents.splitlines():  
 
-this is more concise and we skip having to create the temporary 'lines' variable
-'''
