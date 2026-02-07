@@ -1,12 +1,12 @@
 
 #using a function with a while loop
+
 def get_formatted_name(first_name,last_name):
     """Return full name, neatly formatted."""
     full_name = f"{first_name} {last_name}"
     return full_name.title()
 
-#using "while True" creates an infinite while loop that will never
-#become false on its own
+#using "while True" creates an infinite while loop
 while True:
     print("\nPlease tell me your name:")
     print("(enter 'q' at any time to quit.)")
