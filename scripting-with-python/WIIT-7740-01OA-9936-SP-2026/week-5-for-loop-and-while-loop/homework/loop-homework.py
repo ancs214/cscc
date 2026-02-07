@@ -9,21 +9,35 @@ The program will add item prices to a list, then calculate sales tax and total b
 import sys
 
 # start with empty list
-item_list = []
+price_list = []
 # initial greeting
 print("Welcome to your own personal sales tax and bill calculator! Enter 'q' to end the program.")
 
 while True:
     # prompt user to enter item price and save to user_input variable
-    user_input = input("Please enter an item price.")
+    user_input = input("Please enter an item price: ")
 
     if user_input == 'q':
-        sys.exit()
+        break
+    try:
+        # try to add user_input value to item_list
+        price_list.append(float(user_input))
+    # if it results in ValueError, print error message
+    except ValueError:
+        print("ERROR! \nEnter a number this time.")
     else:
-        # add user_input value to item_list
-        item_list.append(float(user_input))
-        print(f"${item_list[-1]} added.")
-        print("Current price list: ", item_list)
+        print(f"${price_list[-1]} added.")
+        print("Current price list: ", price_list)
+
+print("Here is your list of individual prices: ", price_list)
+
+def calculate_tax(original_prices):
+    for price in original_prices:
+
+
+calculate_tax(price_list)
+
+
 
 
 
