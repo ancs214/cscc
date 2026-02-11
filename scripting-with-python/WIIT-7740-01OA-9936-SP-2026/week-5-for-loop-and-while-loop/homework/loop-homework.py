@@ -37,14 +37,14 @@ def calculate_tax(original_prices, tax_rate = 0.0575):
     for price in original_prices:
         taxed_price = (price * tax_rate)
         sales_tax.append(taxed_price)
-        total_sales_tax = sum(sales_tax)
 
-    # using * (the unpacking operator) unpacks the list element to print without brackets
+    # calculate total sales tax
+    total_sales_tax = sum(sales_tax)
     print('Total Sales Tax: $', round(total_sales_tax, 2))
 
-    # add sum of taxes and prices together to calculate total cost
-    total_price = round((sum(sales_tax) + sum(price_list)), 2)
-    print('Total Bill Amount: $', total_price)
+    # calculate total cost
+    total_price = (sum(sales_tax) + sum(price_list))
+    print('Total Bill Amount: $', round(total_price, 2))
 
 # call function to calculate taxes and total cost
 calculate_tax(price_list)
