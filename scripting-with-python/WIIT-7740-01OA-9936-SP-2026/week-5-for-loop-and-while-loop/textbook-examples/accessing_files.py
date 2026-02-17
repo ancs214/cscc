@@ -9,7 +9,7 @@ this is more concise, and we skip having to create the temporary 'lines' variabl
 
 from pathlib import Path
 
-# retrieve .txt file from directory
+# retrieve .txt file from directory, turn into pathlib.Path object
 path = Path('one-million.txt')
 
 # read entire contents of .txt file
