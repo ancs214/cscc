@@ -6,10 +6,13 @@ PURPOSE: Create a function that takes a list of animals as input and outputs a d
 kind of animal from the list, then use methods to access specific elements.
 """
 
-animal_list = ['lion', 'lion', 'boa', 'spider', 'spider']
+# def create_dictionary(animals):
+#     """takes list of animals and creates an indexed dictionary with count of each animal"""
 
-def create_dictionary(animals):
-    """takes list of animals and creates an indexed dictionary with count of each animal"""
-    dictionary = {}
-    try:
-        for animal in animals:
+dictionary = {}
+animals = ['lion', 'lion', 'boa', 'spider', 'spider']
+index = 0
+
+for index, animal in enumerate(animals):
+    print('List contains', animal, 'at index', index)
+
