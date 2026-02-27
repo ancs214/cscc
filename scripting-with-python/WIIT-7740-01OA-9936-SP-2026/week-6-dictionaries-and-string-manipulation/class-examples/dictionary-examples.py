@@ -17,11 +17,12 @@ print("The values in my dictionary are", my_stock.values())
 my_stock["Discontinued"] = "No"
 print(my_stock)
 
-# iterate over a dictionary
+# both 'for statements' below iterate over a dictionary
+# this for statement will loop through its KEYS to get the value
 for key in my_stock:
     value = my_stock[key]
     print("Key is", key, ": Value is", value)
-
+#this for statement uses the .items() method to upack BOTH the key and value as a tuple
 for key, value in my_stock.items():
     print(key, value)
 

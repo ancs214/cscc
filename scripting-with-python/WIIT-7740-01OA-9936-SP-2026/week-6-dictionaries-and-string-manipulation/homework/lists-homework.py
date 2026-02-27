@@ -10,12 +10,18 @@ kind of animal from the list, then use methods to access specific elements.
 def create_dict(l):
     """Function that takes a list as input and outputs a dictionary with counts of each unique animal"""
     animal_dict = {}
+    # for each element in list
     for x in l:
         if x in animal_dict:
-            animal_dict[x] += 1
+           animal_dict[x] += 1
         else:
             animal_dict[x] = 1
-    return print(animal_dict)
+    return animal_dict
 
 animals = ['lion', 'lion', 'boa', 'spider', 'spider']
-create_dict(animals)
+print(create_dict(animals))
+
+# numbers = 3
+# print(create_dict(numbers))
+
+
