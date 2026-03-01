@@ -31,5 +31,3 @@ print(my_stock)
 
 # empty or clear dictionary
 print(my_stock.clear())
-
-
