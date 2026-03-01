@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+<<<<<<< HEAD
+=======
+    <mapping directory="$PROJECT_DIR$/scripting-with-python/WIIT-7740-01OA-9936-SP-2026/week-1-strings-and-print/homework" vcs="Git" />
+>>>>>>> 32a61325a55ffb105f7807f1bdb2d5336de6b766
+  </component>
+</project>
