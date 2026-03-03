@@ -1,35 +1,60 @@
+"""
+FILE_NAME: csv-homework.py
+AUTHOR: Ashley-Noel Swarn
+DATE: 3/2/2026
+PURPOSE: Create a program that accepts a csv file, replaces bad data from a specific column name
+and replaces with good data. Outputs a new csv file with corrected information.
+"""
 
 import csv
 
-# # read csv file and output list of dictionaries containing 3rd column and values
-# file = 'C:/Users/ancs2/PycharmProjects/cscc/scripting-with-python/WIIT-7740-01OA-9936-SP-2026/week-7-file-and-database-manipulation/homework/unit_7_restaurant_rating.csv'
-#
-# # open file for reading and writing to
-# with open(file, 'r+') as f:
-#     file_reader = csv.reader(f)
-#
-#     line_count = 1
-#     ratings = []
-#     for column in file_reader:
-#         """Take a csv file and create a list of dictionaries containing user name, surname, and email"""
-#         if line_count > 1:
-#             worth_it = column[3]
-#             ratings.append({'Worth_it' : worth_it})
-#         line_count += 1
-#
-#     for rating in ratings:
-#         print(rating)
+
+def csv_correction(
+        input_file,
+        column_name,
+        bad_data_value,
+        replacement_value,
+        output_file_name
+    ):
+    """
+    Function to correct bad data from a specific column in a csv file.
+    Args: csv file, column with bad data, bad data value, replacement value, and
+    output file name.
+    """
+    # empty starter list that will contain dictionaries (or rows)
+    all_data = []
+
+    # open input file
+    with open(input_file, newline='') as csv_file_in:
+        # use DictReader to create an object that reads and maps information in each row to a dict
+        reader = csv.DictReader(csv_file_in)
+
+        for row in reader:
+            # if row has bad data, change bad data to replacement value
+            if row[column_name] == bad_data_value:
+                row[column_name] = replacement_value
+            # add all rows to our empty string
+            all_data.append(row)
+
+    # open new file for writing
+    with open(output_file_name, 'w', newline='') as csv_file_out:
+        # get headers from first dictionary in list (column  names)
+        headers = all_data[0].keys()
+
+        # create writer to include headers
+        writer = csv.DictWriter(csv_file_out, fieldnames=headers)
+
+        # write header and all dictionaries from all_data list to csv file
+        writer.writeheader()
+        writer.writerows(all_data)
+
+    return all_data
 
 
-with open('unit_7_restaurant_rating.csv') as csvfile:
-    # use DictReader to create an object that reads and maps information in each row to a dict
-    reader = csv.DictReader(csvfile)
-    for row in reader:
-        print(row['Worth_the_price'])
-
-
-# Create the function with 5 parameters:
-# (Input file, Output file, Column name, Bad value, Replacement value)
-def new_csv(input_file, output_file, column_data, bad_data, replacement_value):
-    print(input_file, output_file, column_data, bad_data, replacement_value)
-
+csv_correction(
+    'unit_7_restaurant_rating.csv',
+    'Worth_the_price',
+    '45',
+    'no',
+    'corrected_file.csv'
+    )
