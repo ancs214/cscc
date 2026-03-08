@@ -1,7 +1,7 @@
 """
 FILE_NAME: csv-homework.py
 AUTHOR: Ashley-Noel Swarn
-DATE: 3/2/2026
+DATE: 3/8/2026
 PURPOSE: Create a program that accepts a csv file, replaces bad data from a specific column name
 and replaces with good data. Outputs a new csv file with corrected information.
 """
@@ -19,7 +19,7 @@ def csv_correction(
     """
     Function to correct bad data from a specific column in a csv file.
     Args: csv file, column with bad data, bad data value, replacement value, and
-    output file name.
+    desired output file name.
     """
     # empty starter list that will contain dictionaries (or rows)
     all_data = []
@@ -38,7 +38,7 @@ def csv_correction(
 
     # open new file for writing
     with open(output_file_name, 'w', newline='') as csv_file_out:
-        # get headers from first dictionary in list (column  names)
+        # get headers from first dictionary in list (column names)
         headers = all_data[0].keys()
 
         # create writer to include headers
