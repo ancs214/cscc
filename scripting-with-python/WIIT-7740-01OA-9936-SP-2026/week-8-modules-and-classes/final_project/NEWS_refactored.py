@@ -9,6 +9,10 @@ version locally.
 
 from pathlib import Path
 
+
+#-------------------------------
+#------CLEAN TEXT FUNCTION------
+#-------------------------------
 def clean_text(path):
     # read text
     contents = path.read_text(encoding='utf-8').lower()
@@ -21,9 +25,15 @@ def clean_text(path):
     words = contents.split()
     return words
 
-def count_words(isolated_words, ignore_words):
+#-----------------------------------------
+#------COUNT AND PROPORTION FUNCTION------
+#-----------------------------------------
+def count_proportion_func(words, ignore_words):
+    # total number of words
+    num_words = len(words)
+
     counts = {}
-    for word in isolated_words:
+    for word in words:
         # ignore designated words input by user
         if word in ignore_words:
             # skip the rest of the loop and move to next item
@@ -36,21 +46,18 @@ def count_words(isolated_words, ignore_words):
             # if word is new, create key and set value to 1
             counts[word] = 1
 
-    return counts
-
-def proportion_func(count_dict):
-    proportion = {}
-    # total number of words
-    num_words = sum(count_dict.values())
-
-    for word in count_dict:
-        # using 'counts[key]' to look up each key's value, divide by total num of words
-        word_proportion = round((count_dict[word] / num_words), 4)
+    proportions = {}
+    for word in counts:
+        # look up each key's value, divide by total num of words
+        word_proportion = round((counts[word] / num_words), 4)
         # add key/value pair to proportion{}
-        proportion[word] = word_proportion
+        proportions[word] = word_proportion
 
-    return proportion
+    return counts, proportions
 
+#------------------------------
+#------TOP WORDS FUNCTION------
+#------------------------------
 def top_words(top_num, count_dict, total_word_list):
     # total count of words
     total_count = len(total_word_list)
@@ -132,7 +139,7 @@ file_path = Path(filename)
 cleaned_text = clean_text(file_path)
 # RUN COUNT WORDS FUNCTION - INPUT: CLEANED TEXT, OUTPUT: TOTAL#WORDS, COUNT DICT (WORD:COUNT)
 ignore = ["the", "a", "an", "and", "or", "but", "in", "on", "at", "to"]
-counted_words = count_words(cleaned_text, ignore)
+counted_words = count_proportion_func(cleaned_text, ignore)
 # RUN PROPORTION FUNCTION - INPUT: SEARCHED WORD,TOTAL WORDS, OUTPUT: PROPORTION
 search_for_word = "dear"
 proportion_result = proportion_func(counted_words)

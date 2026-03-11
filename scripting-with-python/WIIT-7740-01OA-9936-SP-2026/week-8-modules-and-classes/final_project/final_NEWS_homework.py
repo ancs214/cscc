@@ -44,7 +44,12 @@ def count_words(words_list, ignore_words=None):
             counts[word] = 1
 
     total_words = len(words_list)
-    proportion = {word: round(count / total_words, 4) for word, count in counts.items()}
+
+    proportion = {}
+    for word in counts:
+        count = counts[word]
+        prop = round(count / total_words, 4)
+        proportion[word] = prop
 
     return total_words, counts, proportion
 
@@ -139,6 +144,7 @@ def main():
     ignore_words = ignore_input.lower().split() if ignore_input else []
 
     # --- Word counts ---
+    # count_words returns a tuple with total_words, counts, proportion
     total_words, counts, proportion = count_words(words, ignore_words)
     print(f'\nTotal words: {total_words}\n')
 
