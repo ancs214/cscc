@@ -20,7 +20,6 @@ def count_words(path, ignore_words, search_word, top_num):
     # initialize variables to 0 in case search_for_word fails
     word_repeats = 0
     percentage = 0.0
-    word_proportion = 0.0
 
     # read text
     contents = path.read_text(encoding='utf-8').lower()
@@ -37,7 +36,7 @@ def count_words(path, ignore_words, search_word, top_num):
     print('--- TOTAL WORDS ---')
     print(f'The file {path} contains a total of {num_words} words.\n')
 
-    # COUNTS = WORD:OCCURRENCES
+    # COUNTS = {WORD:OCCURRENCES}
     counts = {}
     for word in words:
         # ignore designated words input by user
@@ -52,7 +51,7 @@ def count_words(path, ignore_words, search_word, top_num):
             # if word is new, create key and set value to 1
             counts[word] = 1
 
-    # PROPORTION = WORD:PROPORTION USED
+    # PROPORTION = {WORD:PROPORTION}
     proportion = {}
     for key in counts:
         # calculate proportion of word use:
@@ -79,17 +78,14 @@ def count_words(path, ignore_words, search_word, top_num):
     top_words_list = sorted_counts[:top_num]
 
     print(f"--- Top {top_num} Most Frequent Words ---")
-    for item, count in top_words_list:
-        top_word = item
+    for top_word, count in top_words_list:
         top_word_count = count
         top_word_proportion = round((top_word_count / num_words), 4)
         top_word_percentage = top_word_proportion * 100
         top_word_percentage_rounded = round(top_word_percentage, 4)
         print(f'Word: {top_word}\nAbsolute Count: {top_word_count}\nProportion: {top_word_proportion} or {top_word_percentage_rounded}%\n')
 
-    print()
-
-    return num_words, counts, proportion, word_proportion, word_repeats, percentage
+    return num_words, counts, proportion, word_repeats, percentage
 
 filename = 'dracula.txt'
 ignore = ["the", "a", "an", "and", "or", "but", "in", "on", "at", "to"]
@@ -97,6 +93,8 @@ search_for_word = "dear"
 top_n_words = 3
 # turns text string into a pathlib.Path object to pass to function:
 file_path = Path(filename)
+search_for_string = 'dear'
 
 count_words(file_path, ignore, search_for_word, top_n_words)
+
 
