@@ -14,6 +14,7 @@ from pathlib import Path
 #------CLEAN TEXT FUNCTION------
 #-------------------------------
 def clean_text(path):
+    """Cleans the text of the file"""
     # read text
     contents = path.read_text(encoding='utf-8').lower()
 
@@ -29,12 +30,20 @@ def clean_text(path):
 #------COUNT AND PROPORTION FUNCTION------
 #-----------------------------------------
 def count_proportion_func(words, ignore_words):
+    """
+    Creates a dictionary with non-ignored words and their counts. Then creates a
+    dictionary with non-ignored words and their proportions of appearance in the text.
+    """
     counts = {}
+    non_ignored_words = []
     for word in words:
         # ignore designated words input by user
         if word in ignore_words:
             # skip the rest of the loop and move to next item
             continue
+
+        # add to non-ignored list
+        non_ignored_words.append(word)
 
         if word in counts:
             # if word is already a key, increase value in key/value pair by 1
@@ -53,12 +62,16 @@ def count_proportion_func(words, ignore_words):
         # add key/value pair to proportion{}
         proportions[word] = word_proportion
 
-    return counts, proportions, total_non_ignored
+    return counts, proportions, total_non_ignored, non_ignored_words
 
 #------------------------------
 #------TOP WORDS FUNCTION------
 #------------------------------
-def top_words(top_num, counts, num_words):
+def top_words(top_num, counts, total_non_ignored):
+    """
+    Sorts the counts dictionary from greatest to smallest value and takes user input
+    to determine how many top results to display.
+    """
     # sort counts dictionary and convert to list of pairs (each item in list is a tuple)
     # (key=lambda tells python to look at the value as a number for sorting)
     sorted_counts = sorted(counts.items(), key=lambda x: x[1], reverse=True)
@@ -68,19 +81,31 @@ def top_words(top_num, counts, num_words):
 
     top_results = []
     for top_word, count in top_words_list:
-        top_word_proportion = round((count / num_words), 4)
+        top_word_proportion = round((count / total_non_ignored), 4)
         top_word_percentage = round(top_word_proportion * 100, 4)
         top_results.append((top_word, count, top_word_proportion, top_word_percentage))
 
     return top_results
 
-def print_results(count_dict, total_count, prop, top, searched_word):
-    print('--- TOTAL WORDS ---')
-    print(f'The file contains a total of {total_count} words.\n')
+#-----------------------------------
+# ------PRINT RESULTS FUNCTION------
+#-----------------------------------
+def print_results(counts, words, proportions, top_results, searched_word):
+    """
+    Takes results from counts, proportions, and top words and prints total words, proportion of
+    searched word, and top words with corresponding count and proportion.
+    """
+    num_words = len(words)
+    print('---------------------------------------------------------')
+    print('----------------------FINAL RESULTS----------------------')
+    print('---------------------------------------------------------\n')
 
-    if searched_word in count_dict:
-        word_repeats = count_dict[searched_word]
-        proportion = prop[searched_word]
+    print('--- TOTAL WORDS ---')
+    print(f'The file contains a total of {num_words} words.\n')
+
+    if searched_word in counts:
+        word_repeats = counts[searched_word]
+        proportion = proportions[searched_word]
         percentage = round(proportion * 100, 4)
 
         print('--- PROPORTION OF SEARCHED WORD ---')
@@ -90,76 +115,124 @@ def print_results(count_dict, total_count, prop, top, searched_word):
 
     print('--- TOP WORDS ---')
     # "unpacking" tells python to grab one item from top list of tuples and split into four variables
-    for word, count, p, percent in top:
-        print(f'The word {word} appears {count} times with a proportion of {p} or {percent}%')
+    for word, count, prop, percent in top_results:
+        print(f'Word: "{word}"\nCount: {count}\nProportion: {prop} or {percent}%\n')
 
-def find_positions(word_list, search_word):
+#--------------------------------------------
+#------FIND POSITION OF STRING FUNCTION------
+#--------------------------------------------
+def find_positions(non_ignored_words, string_search):
+    """Finds numerical position of the word user searched text for."""
     positions = []
-
-    for i, word in enumerate(word_list, start=1):
-        if word == search_word:
+    # loop through each item with counter, starting at 1 instead of 0
+    for i, word in enumerate(non_ignored_words, start=1):
+        # if word=string_search, add to positions list
+        if word == string_search:
             positions.append(i)
 
     return positions
 
-
-def replace_words(word_list, positions, replacement, replace_all=False):
+#-----------------------------------
+#------REPLACE STRING FUNCTION------
+#-----------------------------------
+def replace_words(total_non_ignored, positions, replacement, replace_all=False):
+    """
+    Replaces the word user searched for. Gives user the option to replace all occurrences
+    or only one word at a specific position.
+    """
+    # create copy of total_non_ignored so original list remains intact
+    replaced_words_list = list(total_non_ignored)
     if replace_all:
         for pos in positions:
-            word_list[pos - 1] = replacement
+            # updates list with replacement, converting "1" back to "0" for python
+            replaced_words_list[pos - 1] = replacement
     else:
-        pos = int(input("Enter the position you want to replace: "))
+        try:
+            pos = int(input("Enter the position you want to replace: "))
 
-        if pos in positions:
-            word_list[pos - 1] = replacement
-        else:
-            print("Position not found.")
+            if pos in positions:
+                # updates list with replacement, converting "1" back to "0" for python
+                replaced_words_list[pos - 1] = replacement
+            else:
+                print("Position not found.")
+        except ValueError:
+            print("Please enter a valid number.")
 
-    return word_list
+    return replaced_words_list
 
-def save_new_file(original_name, new_name, word_list):
-
+#----------------------------------
+#------SAVE NEW FILE FUNCTION------
+#----------------------------------
+def save_new_file(original_name, new_name, replaced_words_list):
+    """Save modified document to a new file with new name."""
     if original_name == new_name:
         print("New file name must be different from the original.")
         return
 
-    new_text = " ".join(word_list)
+    # converts list of words back into a single string separated by spaces
+    new_text = " ".join(replaced_words_list)
 
+    # write file
     with open(new_name, "w", encoding="utf-8") as file:
         file.write(new_text)
 
     print(f"Modified file saved as {new_name}")
 
-# RUN CLEAN TEXT FUNCTION - INPUT: TEXT FILE, OUTPUT: ISOLATED WORDS
-filename = 'dracula.txt'
-file_path = Path(filename)
-cleaned_text = clean_text(file_path)
-# RUN COUNT WORDS FUNCTION - INPUT: CLEANED TEXT, OUTPUT: TOTAL#WORDS, COUNT DICT (WORD:COUNT)
-ignore = ["the", "a", "an", "and", "or", "but", "in", "on", "at", "to"]
-counted_words = count_proportion_func(cleaned_text, ignore)
-# RUN PROPORTION FUNCTION - INPUT: SEARCHED WORD,TOTAL WORDS, OUTPUT: PROPORTION
-search_for_word = "dear"
-proportion_result = proportion_func(counted_words)
-# RUN TOP N WORDS FUNCTION - INPUT: TOP NUM, OUTPUT: (TOP WORD, OCCURRENCE, PROPORTION, PERCENTAGE)
-top_n_words = 3
-top_words_results = top_words(top_n_words, counted_words, cleaned_text)
-# RUN PRINT RESULTS FUNCTION - INPUT: COUNT DICT, PROP DICT, TOP WORDS
-total_word_count = len(cleaned_text)
-print_results(counted_words, total_word_count, proportion_result, top_words_results, search_for_word)
+#-------------------------
+#------MAIN FUNCTION------
+#-------------------------
+def main():
+    # get file name
+    filename = input("Enter the file path (e.g., document.txt): ")
+    file_path = Path(filename)
 
-# filename = 'dracula.txt'
-# file_path = Path(filename)
-# ignore = ["the", "a", "an", "and", "or", "but", "in", "on", "at", "to"]
-#
-# # 1. Clean the text
-# all_words = clean_text(file_path)
-#
-# # 2. Get counts (this ignores the stop words)
-# counts, proportions = count_proportion_func(all_words, ignore)
-#
-# # 3. Get the top 10 results
-# # Note: We pass all_words here so the percentage is based on the full text
-# top_10 = top_words(10, counts, all_words)
-#
-# for word, count, prop, percent in top_10:
-#     print(f"{word}: {count} occurrences ({percent:.2f}%)")
+    if not file_path.exists():
+        print("Error: File not found.")
+        return
+
+    # get ignore words
+    ignore = input("Enter words to ignore (separated by space): ").lower().split()
+
+    # clean text
+    all_words = clean_text(file_path)
+
+    # pass variables into count_proportion function to get counts and proportion
+    counts, proportions, total_non_ignored, non_ignored_words = count_proportion_func(all_words, ignore)
+
+    # search for string
+    string_search = input("\nEnter the word you want to find: ").lower()
+
+    # ask replacement word
+    replacement = input("\nEnter the replacement word: ").lower()
+
+    # find position of searched word and show user
+    positions = find_positions(non_ignored_words, string_search)
+    print(f'The word "{string_search}" appears at positions:')
+    print(positions)
+
+    # ask replace all or no
+    choice = input("Do you want to replace ALL occurrences? (yes/no): ").lower()
+
+    if choice == "yes":
+        replace_all = True
+    else:
+        replace_all = False
+
+    # pass variables into replace function
+    replaced_words_list = replace_words(non_ignored_words, positions, replacement, replace_all)
+
+    # ask how many top words
+    top_num = int(input("\nHow many top words would you like to see? "))
+
+    # get top results
+    top_results_list = top_words(top_num, counts, total_non_ignored)
+
+    # pass variables into print function
+    print_results(counts, all_words, proportions, top_results_list, string_search)
+
+    # save renamed file
+    new_filename = input("\nEnter a name for the new file: ")
+    save_new_file(filename, new_filename, replaced_words_list)
+
+if __name__ == "__main__":
+        main()

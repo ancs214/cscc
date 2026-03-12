@@ -87,7 +87,7 @@ def count_words(path, ignore_words, search_word, top_num):
 
     return num_words, counts, proportion, word_repeats, percentage
 
-filename = 'dracula.txt'
+filename = '../final_project/dracula.txt'
 ignore = ["the", "a", "an", "and", "or", "but", "in", "on", "at", "to"]
 search_for_word = "dear"
 top_n_words = 3
